@@ -9,21 +9,23 @@ function Tree() {
   this.age = 0;
 
 
-  var loc = [[50, 50], [50, 450], [450, 50], [450, 450]];
+  var loc = [[width/2, height/2]];
   for(var t = 0; t < loc.length;t++){
     var root = new Branch(null, createVector(loc[t][0], loc[t][1]), createVector(0, -1), t);
     this.branches.add(root);
     this.branchArr.push(root);
   }
 
-  this.genLeaves = function(n){
+  this.genLeaves = function(n, x, y){
     var num = n ? n: numLeaves;
+    var neg1 = Math.random() >= .5? -1: 1;
+    var neg2 = Math.random() >= .5? -1: 1;
     for(var i = 0; i < num; i++){
-      this.leaves.push(new Leaf());
+      this.leaves.push(new Leaf(createVector(x + (Math.random() * 30) * neg1, y + (Math.random() * 30) * neg2)));
     }
   }
 
-  this.genLeaves();
+  // this.genLeaves();
 
   this.grow = function() {
     var reached = [];
@@ -33,6 +35,7 @@ function Tree() {
     for(var i = 0; i < this.leaves.length; i++){
       var leaf = this.leaves[i];
       var closest = this.branches.find(leaf.pos.x, leaf.pos.y, max_dist);
+      var d = 1000;
 
       if(closest){
         // console.log(closest)
@@ -44,10 +47,11 @@ function Tree() {
 
         var d = p5.Vector.dist(closest.pos, leaf.pos);
         // console.log(d)
-        if(d <= min_dist){
-          reached.push(i);
-        }
       }
+      if(d <= min_dist || leaf.age < 1){
+        reached.push(i);
+      }
+      leaf.age--;
     }
 
     for(var j = reached.length-1; j > 0; j--){
@@ -69,13 +73,13 @@ function Tree() {
 
     var toRemove = [];
 
-    if(this.leaves.length < (numLeaves/3)&& this.age > 300){
-      this.leaves = [];
+    if(this.age > 300){
+      // this.leaves = [];
       for(var k = 0; k < this.branchArr.length; k++){
 
         var branch = this.branchArr[k];
 
-        if (branch.parent && Object.keys(branch.children).length < 1){
+        if (branch.parent && Object.keys(branch.children).length === 0){
           if(branch.lifeforce < 1){
             delete branch.parent.children[branch.id];
             this.branches.remove(branch);
@@ -91,9 +95,9 @@ function Tree() {
       }
     }
 
-    if(this.age > 300 && this.age % 50 == 0){
-      this.genLeaves();
-    };
+    // if(this.age > 300 && this.age % 50 == 0){
+    //   this.genLeaves();
+    // };
 
     // if(this.age%10 == 0){
     //   this.genLeaves(numLeaves);
@@ -105,9 +109,9 @@ function Tree() {
   }
 
   this.show = function(){
-    // for(var i = 0; i < this.leaves.length; i++){
-    //   this.leaves[i].show();
-    // }
+    for(var i = 0; i < this.leaves.length; i++){
+      this.leaves[i].show();
+    }
     for(var i = 0; i < this.branchArr.length; i++){
       this.branchArr[i].show();
 

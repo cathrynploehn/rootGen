@@ -8,7 +8,7 @@ var min_dist = 10;
 
 function setup() {
   var elem = document.querySelector("body");
-  createCanvas(500, 500);
+  createCanvas(elem.offsetWidth, elem.offsetHeight);
   tree = new Tree();
 }
 
@@ -16,4 +16,17 @@ function draw() {
   background(255);
   tree.show();
   tree.grow();
+}
+
+function mousePressed(e) {
+  tree.genLeaves(1, mouseX, mouseY);
+  return false;
+}
+function mouseDragged(e) {
+  tree.genLeaves(1, mouseX, mouseY);
+  return false;
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }

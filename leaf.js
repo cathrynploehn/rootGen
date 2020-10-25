@@ -1,6 +1,7 @@
 function Leaf(pos) {
   this.pos = pos || createVector(random(width), random(height));
   this.reached = false;
+  this.age = 500;
 
   this.show = function() {
     noFill();
