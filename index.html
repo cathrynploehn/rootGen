@@ -3,10 +3,20 @@
     <script src="p5.sound.min.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="utf-8">
+    <!-- Require the peer dependencies of handpose. -->
+		<script src="https://unpkg.com/@tensorflow/tfjs-core@2.1.0/dist/tf-core.js"></script>
+		<script src="https://unpkg.com/@tensorflow/tfjs-converter@2.1.0/dist/tf-converter.js"></script>
 
+		<!-- You must explicitly require a TF.js backend if you're not using the tfs union bundle. -->
+		<script src="https://unpkg.com/@tensorflow/tfjs-backend-webgl@2.1.0/dist/tf-backend-webgl.js"></script>
+		<!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-cpu@2.7.0/dist/tf-backend-cpu.min.js"></script> -->
+		<!-- Alternatively you can use the WASM backend: <script src="https://unpkg.com/@tensorflow/tfjs-backend-wasm@2.1.0/dist/tf-backend-wasm.js"></script> -->
+
+		<script src="https://unpkg.com/@tensorflow-models/handpose@0.0.6/dist/handpose.js"></script>
   </head>
   <body>
     <script src="d3.quadtree.js"></script>
+    <script src="nutrientScape.js"></script>
     <script src="leaf.js"></script>
     <script src="branch.js"></script>
     <script src="tree.js"></script>

@@ -19,12 +19,10 @@ function Branch(parent, pos, direction, id) {
   this.next = function(id){
     var nextDir = p5.Vector.mult(this.dir, this.len)
     var nextPos = p5.Vector.add(this.pos, nextDir);
-    // if(p5.Vector.dist(this.pos, nextPos) > .8){
-      var next = new Branch(this, nextPos, this.dir.copy(), id);
-      this.children[id] = next;
-      this.lifeforce += 2;
-      return next;
-    // } else {return null;}
+    var next = new Branch(this, nextPos, this.dir.copy(), id);
+    this.children[id] = next;
+    this.lifeforce += nutrientScape.getNutrientAt(nextPos.x, nextPos.y);
+    return next;
   }
 
   this.show = function() {
@@ -38,7 +36,7 @@ function Branch(parent, pos, direction, id) {
         this.radius = r;;
       }
       strokeWeight(Math.min(this.radius, numLeaves/100));
-      stroke(0)
+      stroke(255)
       line(this.pos.x,this.pos.y, this.parent.pos.x, this.parent.pos.y)
     }
   }

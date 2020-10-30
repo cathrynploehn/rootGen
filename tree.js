@@ -7,6 +7,7 @@ function Tree() {
   this.branchArr = [];
   this.generations = [];
   this.age = 0;
+  this.message = "hi";
 
 
   var loc = [[width/2, height/2]];
@@ -17,11 +18,21 @@ function Tree() {
   }
 
   this.genLeaves = function(n, x, y){
-    var num = n ? n: numLeaves;
-    var neg1 = Math.random() >= .5? -1: 1;
-    var neg2 = Math.random() >= .5? -1: 1;
-    for(var i = 0; i < num; i++){
-      this.leaves.push(new Leaf(createVector(x + (Math.random() * 30) * neg1, y + (Math.random() * 30) * neg2)));
+    var closest = this.branches.find(x, y, max_dist);
+
+    if(closest){
+
+      var nutrient = Math.pow(nutrientScape.getNutrientAt(x, y)-2, 2);
+      this.message = Math.floor(nutrient);
+      // var num = n ? n: numLeaves;
+      var neg1 = Math.random() >= .5? -1: 1;
+      var neg2 = Math.random() >= .5? -1: 1;
+      for(var i = 0; i < nutrient; i++){
+        this.leaves.push(new Leaf(createVector(x + (Math.random() * 50) * neg1, y + (Math.random() * 50) * neg2)));
+      }
+
+    } else {
+      this.message = "i can't see that far away"
     }
   }
 
@@ -48,7 +59,7 @@ function Tree() {
         var d = p5.Vector.dist(closest.pos, leaf.pos);
         // console.log(d)
       }
-      if(d <= min_dist || leaf.age < 1){
+      if(d >= max_dist+20 || d <= min_dist || leaf.age < 1){
         reached.push(i);
       }
       leaf.age--;
@@ -95,26 +106,26 @@ function Tree() {
       }
     }
 
-    // if(this.age > 300 && this.age % 50 == 0){
-    //   this.genLeaves();
-    // };
-
-    // if(this.age%10 == 0){
-    //   this.genLeaves(numLeaves);
-    // };
-
-
-
     this.age++;
   }
 
   this.show = function(){
-    for(var i = 0; i < this.leaves.length; i++){
-      this.leaves[i].show();
-    }
+    // for(var i = 0; i < this.leaves.length; i++){
+    //   this.leaves[i].show();
+    // }
     for(var i = 0; i < this.branchArr.length; i++){
       this.branchArr[i].show();
-
     }
+
+    push();
+      noStroke();
+      textSize(12);
+      fill(255, 255);
+      if(palm){
+        text(this.message, palm[0], palm[1]);
+      } else {
+        text(this.message, mouseX, mouseY);
+      }
+    pop();
   }
 }
