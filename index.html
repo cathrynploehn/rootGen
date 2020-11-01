@@ -10,13 +10,80 @@
 		<!-- You must explicitly require a TF.js backend if you're not using the tfs union bundle. -->
 		<script src="https://unpkg.com/@tensorflow/tfjs-backend-webgl@2.1.0/dist/tf-backend-webgl.js"></script>
 		<!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-cpu@2.7.0/dist/tf-backend-cpu.min.js"></script> -->
-		<!-- Alternatively you can use the WASM backend: <script src="https://unpkg.com/@tensorflow/tfjs-backend-wasm@2.1.0/dist/tf-backend-wasm.js"></script> -->
+		<!-- Alternatively you can use the WASM backend:  -->
+    <!-- <script src="https://unpkg.com/@tensorflow/tfjs-backend-wasm@2.1.0/dist/tf-backend-wasm.js"></script> -->
 
 		<script src="https://unpkg.com/@tensorflow-models/handpose@0.0.6/dist/handpose.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" /> -->
+    <style media="screen">
+      body, html, canvas {
+        background-color: black;
+        overflow: hidden;
+        height: 100vh;
+        font-family: monospace;
+        color: white;
+        width: 100%;
+        white-space: nowrap;
+        vertical-align: top;
+      }
+      a{
+        color: white;
+      }
+      p {
+        line-height: 20px;
+      }
+      button {
+        background-color: black;
+        color: white;
+        z-index: 3;
+      }
+      #page-title {
+        position: absolute;
+        left: 20px;
+      }
+      #content, canvas {
+        display: inline-block;
+      }
+      #content {
+        margin-top: 80px;
+        padding: 20px 20px 20px 20px;
+        max-width: 300px;
+        white-space: initial;
+        width: 100%;
+        position: absolute;
+        z-index: 2;
+        height: 80vh;
+        overflow-y: scroll;
+      }
+      #content::-webkit-scrollbar {
+        width: 11px;
+      }
+      #content::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      #content::-webkit-scrollbar-thumb {
+        background-color: transparent;
+        border: 1px solid #ddd;
+      }
+    </style>
   </head>
   <body>
+    <div id="page-title">
+      <h1>Physarum polycephalum</h1>
+      From Wikipedia, the free encyclopedia
+    </div>
+    <div id="content">
+      <button id="close">✕ close</button>
+    </br>
+    </div>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="d3.quadtree.js"></script>
+    <script src="wikipedia.js"></script>
+    <script src="tutorial.js"></script>
     <script src="nutrientScape.js"></script>
+    <script src="hand.js"></script>
     <script src="leaf.js"></script>
     <script src="branch.js"></script>
     <script src="tree.js"></script>

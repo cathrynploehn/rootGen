@@ -1,108 +1,80 @@
-var tree;
+var sketch;
 
-var max_dist = 30;
+var max_dist = 40;
 var numLeaves = 1000;
 
 // weirdly can't get closer than 20 sometimes...
 var min_dist = 15;
 
 var group, scene, renderer, capture, predictions, mdl, predictHands, handmdl;
+
+var haveVideo = true;
 var verts = [];
-var vertsHand = [];
-var predicting = false;
-var predictingHands = false;
+
 var ready = false;
 var palm = null;
 
+var tree, hand, tutorial, nutrientScape;
+
 var scaleDimensions = []
-var nutrientScape;
 
-function setup() {
-  var elem = document.querySelector("body");
-  createCanvas(elem.offsetWidth, elem.offsetHeight);
-
-  capture = createCapture({ "video": { "width": { "min": 640/4, "max": 640/3 }, "height": { "min": 480/4, "max": 480/3 } } });
-
-  const vid = document.querySelector('video');
-        vid.addEventListener('loadeddata', (event) => {
-          scaleDimensions = [width/capture.width, height/capture.height];
-          loadmdls();
-          capture.hide();
-        });
-
-  nutrientScape = new NutrientScape(width, height);
-  var n = nutrientScape.getNutrientAt(401, 401);
-
-  tree = new Tree();
+window.onload = function(){
+  sketch = new p5(rootSketch);
 }
 
-function draw() {
-  // nutrientScape.show();
-  // background(0, 200);
-  background(0)
-  tree.show();
-  tree.grow();
+var rootSketch =  function (p){
+  p.setup = function() {
+    p.frameRate(24);
+    var elem = document.querySelector("body");
+    p.createCanvas(elem.offsetWidth, elem.offsetHeight);
 
-  // shows the video if you dare
-  // push();
-  //   scale(createVector(scaleDimensions[0], scaleDimensions[1]))
-  //   translate(createVector(capture.width,0)); // move to far corner
-  //   scale(-1,1.0);
-  //
-  //   // image(capture, 0, 0)
-  //   background(255, 200);
-  // pop();
+    p.textFont("courier");
 
-  // if we have hand data, it throws up a circle somewhere in the palm area
-  if(palm){
-    stroke(255);
-    ellipse(palm[0], palm[1], 5, 5)
+    // // capture = p.createCapture({ "video": { "width": { "min": 640/4, "max": 640/3 }, "height": { "min": 480/4, "max": 480/3 } } });
+    capture = p.createCapture({ "video": { "width": { "ideal": 640/3 }, "height": { "ideal": 480/3 } } });
+
+    const vid = document.querySelector('video');
+    vid.addEventListener('loadeddata', async (event) => {
+      capture.hide();
+      scaleDimensions = [p.width/capture.width, p.height/capture.height];
+      hand = new Hand(p);
+      nutrientScape = new NutrientScape(p, p.width, p.height);
+      var n = nutrientScape.getNutrientAt(401, 401);
+
+      tree = new Tree(p);
+      tutorial = new Tutorial(p);
+    });
+
   }
 
-  if (!predictingHands && ready) {predictHand();}
-}
+  p.draw = function() {
+    p.background(0);
 
-function mousePressed(e) {
-  tree.genLeaves(1, mouseX, mouseY);
-  return false;
-}
-function mouseDragged(e) {
-  tree.genLeaves(3, mouseX, mouseY);
-  return false;
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-  nutrientScape.genGrid(windowWidth, windowHeight)
-}
-
-async function loadmdls() {
-  // Load the MediaPipe handpose mdl assets.
-  handmdl = await handpose.load();
-  ready = true;
-  predictHand();
-}
-
-async function predictHand() {
-  predictingHands = true;
-
-  predictHands = await handmdl.estimateHands(document.querySelector("video"));
-  if(predictHands.length > 0){
-    vertsHand = [];
-    for (let i = 0; i < predictHands.length; i++) {
-      const keypoints = predictHands[i].landmarks;
-      for (let i = 0; i < keypoints.length; i++) {
-        vertsHand.push([keypoints[i][0], keypoints[i][1], keypoints[i][2]]);
-      }
+    if(tutorial) { tutorial.show(); }
+    if(hand) {hand.show()};
+    if(tree){
+      tree.show();
+      tree.grow();
     }
-    // palm keypoints are [0, 1, 5, 9, 13];
-    var x = width - (scaleDimensions[0] * vertsHand[1][0]);
-    var y = ((vertsHand[9][1] - vertsHand[1][1])/2) + vertsHand[1][1];
-        y = scaleDimensions[1] * y
-    palm = [x, y];
-    tree.genLeaves(1, x, y);
-    predictingHands = false;
-  } else {
-    predictingHands = false;
+
   }
+
+  p.mousePressed = function(e) {
+    if(tree){tree.genLeaves(1, p.mouseX, p.mouseY);}
+    return false;
+  }
+  p.mouseDragged = function(e) {
+    if(tutorial.displayInteraction){ tutorial.displayInteraction = false;  }
+    if(tree){tree.genLeaves(3, p.mouseX, p.mouseY)};
+    return false;
+  }
+  p.mouseReleased = function(e) {
+    if(tree){tree.message = "";}
+  }
+  p.windowResized = function() {
+    p.resizeCanvas(p.windowWidth, p.windowHeight);
+    nutrientScape.genGrid(p.windowWidth, p.windowHeight);
+    tutorial.placeButtons();
+  }
+
 }
