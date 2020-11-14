@@ -34,7 +34,7 @@ function Branch(p, parent, pos, direction, id) {
         var r = 0;
         for(ch in this.children){
           r +=  Math.pow(this.children[ch].radius, 1);
-          if(this.children[ch].color > c){
+          if(this.children[ch].color < c){
             c = this.children[ch].color;
           }
         }
@@ -43,7 +43,7 @@ function Branch(p, parent, pos, direction, id) {
         this.color = c;
 
       }
-      p.strokeWeight(Math.min(this.radius, numLeaves/100));
+      p.strokeWeight(Math.min(this.radius, 7));
       p.stroke(this.color)
       p.line(this.pos.x,this.pos.y, this.parent.pos.x, this.parent.pos.y)
     } else {

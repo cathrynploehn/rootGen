@@ -23,12 +23,6 @@ function NutrientScape(p, width, height, resolution) {
           thisObj.peaks.push(obj); }
   		}
     }
-    for(var i = 0; i < wikipedia.paragraphs.length; i++){
-      var rand = Math.floor(Math.random() * thisObj.peaks.length);
-      var obj = thisObj.peaks[rand];
-      obj.peak = true;
-      thisObj.contentPoints.push([obj.x * thisObj.resolution, obj.y * thisObj.resolution]);
-    }
   }
 
   this.getNutrientAt = function(x, y){

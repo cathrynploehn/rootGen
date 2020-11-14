@@ -10,10 +10,11 @@ function Tree(p) {
   this.age = 0;
   this.message = "hi";
   this.reachedContent = [];
-  this.sColor = d3.scalePow([0, 11], [10, 255]).exponent(2);
+  this.sColor = d3.scalePow([0, 11], [255, 10]).exponent(2);
   this.root;
 
-  var loc = [[p.width/2, p.height/2]];
+  // var loc = [[p.width-50, p.height-50], [50, 50], [p.width-50, 50], [50, p.height-50]];
+  var loc = [[200, 200]];
   for(var t = 0; t < loc.length;t++){
     thisObj.root = new Branch(p, null, p.createVector(loc[t][0], loc[t][1]), p.createVector(0, -1), t);
     this.branches.add(this.root);
@@ -100,7 +101,7 @@ function Tree(p) {
 
     var toRemove = [];
 
-    if(this.age > 300){
+    if(false && this.age > 300){
       // this.leaves = [];
       for(var k = 0; k < this.branchArr.length; k++){
 

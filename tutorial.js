@@ -58,13 +58,13 @@ function Tutorial (p){
         p.fill(255)
         if(haveWebcam){
           p.text("Use your hand to navigate. No data is stored.", p.width/2, p.height/2 + 30)
-        } else {
-          p.text("This website is best experienced with a webcam, but we can't find one.", p.width/2, p.height/2 + 30)
-        }
           p.translate(p.width, 0)
           p.scale(-1, 1);
           p.image(capture, p.width/2 - capture.width/2, p.height/2 - capture.height);
           p.filter(p.GRAY);
+        } else {
+          p.text("This website is best experienced with a webcam, but we can't find one.", p.width/2, p.height/2 + 30)
+        }
           // p.image(capture, 0, 0);
       p.pop();
     } else if(!this.displayWebcam && this.displayInteraction){

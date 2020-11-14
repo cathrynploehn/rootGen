@@ -66,7 +66,7 @@ function Hand(p){
       // if we have hand data, it throws up a circle somewhere in the palm area
     var x = p.mouseX;
     var y = p.mouseY;
-    p.stroke(255);
+    p.stroke(0);
     p.noFill();
 
     if(haveVideo && newPalm){
@@ -92,7 +92,7 @@ function Hand(p){
       }
     } else if (!haveVideo) {
       p.ellipse(x, y, max_dist, max_dist)
-      p.fill(255);
+      p.fill(0);
       p.ellipse(x, y, 3, 3)
     }
     // ellipse(palm[0], palm[1], palm[2], palm[2]) scale circle to palm size
