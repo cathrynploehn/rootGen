@@ -24,8 +24,8 @@ window.onload = function(){
   sketch = new p5(rootSketch);
 }
 
-var rootSketch =  function (p){
-  p.setup = function() {
+var rootSketch =  async function (p){
+  p.setup = async function() {
     p.frameRate(24);
     var elem = document.querySelector("body");
     p.createCanvas(elem.offsetWidth, elem.offsetHeight);
@@ -33,13 +33,11 @@ var rootSketch =  function (p){
     p.textFont("courier");
 
     capture = p.createCapture({ "video": { "width": { "ideal": 640/3 }, "height": { "ideal": 480/3 } } });
-    vid = document.querySelector('video');
-    haveWebcam = true;
-    capture = p.createCapture({ "video": { "width": { "min": 640/4, "max": 640/3 }, "height": { "min": 480/4, "max": 480/3 } } });
+      vid = document.querySelector('video');
+      haveWebcam = true;
+      // capture = p.createCapture({ "video": { "width": { "min": 640/4, "max": 640/3 }, "height": { "min": 480/4, "max": 480/3 } } });
 
-    capture.loadPixels();
-
-      if(capture.pixels[1] > 0) {
+      if(capture) {
         vid.addEventListener('loadeddata', async (event) => {
           capture.hide();
           scaleDimensions = [p.width/capture.width, p.height/capture.height];
@@ -52,9 +50,6 @@ var rootSketch =  function (p){
         scaleDimensions = [1, 1];
         init();
       }
-    // if(haveWebcam && vid){
-    // } else {
-    // }
 
     function init(){
       hand = new Hand(p);
