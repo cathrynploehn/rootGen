@@ -35,7 +35,7 @@ var rootSketch =  function (p){
     capture = p.createCapture({ "video": { "width": { "ideal": 640/3 }, "height": { "ideal": 480/3 } } });
     vid = document.querySelector('video');
     haveWebcam = true;
-    // // capture = p.createCapture({ "video": { "width": { "min": 640/4, "max": 640/3 }, "height": { "min": 480/4, "max": 480/3 } } });
+    capture = p.createCapture({ "video": { "width": { "min": 640/4, "max": 640/3 }, "height": { "min": 480/4, "max": 480/3 } } });
 
     capture.loadPixels();
 
