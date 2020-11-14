@@ -10,14 +10,17 @@ function NutrientScape(p, width, height, resolution) {
     thisObj.width = Math.floor(width / thisObj.resolution);
     thisObj.height = Math.floor(height / thisObj.resolution);
 
-    var max
+    var max;
     for (var y = 0; y < thisObj.height; y++) {
       for(var x = 0; x < thisObj.width; x++) {
         var row = [];
   			var c = 10 * p.noise(0.05 * x, 0.05 * y);
         var obj = {x: x, y: y, val: c, index: thisObj.grid.length, peak: false};
         thisObj.grid.push(obj);
-        if(c > 6){ thisObj.peaks.push(obj); }
+        var d = p5.Vector.dist(p.createVector(obj.x* thisObj.resolution, obj.y* thisObj.resolution), p.createVector(p.width/2, p.height/2));
+        if(c > 6 && (d > (max_dist + 50))){
+          if(d < max_dist + 50){console.log(d);}
+          thisObj.peaks.push(obj); }
   		}
     }
     for(var i = 0; i < wikipedia.paragraphs.length; i++){

@@ -11,14 +11,16 @@ function Tutorial (p){
   function removeWebcam (videoTracking){
     haveVideo = videoTracking;
     thisObj.displayWebcam = false;
-    button1.remove();
+    if(button1){button1.remove();}
     button2.remove();
   }
 
   this.setUpWebcam = function(){
     thisObj.displayWebcam = true;
-    button1 = p.createButton('Yes, use hand tracking');
-    button1.mousePressed(function(){ removeWebcam(true); });
+    if(haveWebcam){
+      button1 = p.createButton('Yes, use hand tracking');
+      button1.mousePressed(function(){ removeWebcam(true); });
+    }
 
     button2 = p.createButton('Use mouse instead');
     button2.mousePressed(function(){ removeWebcam(false); });
@@ -28,8 +30,12 @@ function Tutorial (p){
   this.placeButtons = function(){
     var leftMargin = 0;
     if(thisObj.contentVisible){ leftMargin = $("#content").outerWidth(); }
-    button1.position(leftMargin + p.width/2 - (button1.width + button2.width+ 10)/2, p.height/2 + 50);
-    button2.position(leftMargin + p.width/2 - (button1.width + button2.width+ 10)/2 + button1.width + 10, p.height/2 + 50);
+    if(haveWebcam){
+      button1.position(leftMargin + p.width/2 - (button1.width + button2.width+ 10)/2, p.height/2 + 50);
+      button2.position(leftMargin + p.width/2 - (button1.width + button2.width+ 10)/2 + button1.width + 10, p.height/2 + 50);
+    } else {
+      button2.position(leftMargin + p.width/2 - (button2.width)/2, p.height/2 + 50);
+    }
   }
 
   this.placeContent = function(index){
@@ -50,7 +56,11 @@ function Tutorial (p){
         p.rect(0, 0, p.width, p.height);
         p.textAlign(p.CENTER, p.CENTER);
         p.fill(255)
-        p.text("Use your hand to navigate. No data is stored.", p.width/2, p.height/2 + 30)
+        if(haveWebcam){
+          p.text("Use your hand to navigate. No data is stored.", p.width/2, p.height/2 + 30)
+        } else {
+          p.text("This website is best experienced with a webcam, but we can't find one.", p.width/2, p.height/2 + 30)
+        }
           p.translate(p.width, 0)
           p.scale(-1, 1);
           p.image(capture, p.width/2 - capture.width/2, p.height/2 - capture.height);
@@ -103,4 +113,5 @@ function Tutorial (p){
   });
 
   this.setUpWebcam();
+
 }

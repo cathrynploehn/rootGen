@@ -44,7 +44,7 @@ function Hand(p){
       //
       newPalm = p.createVector(x, y)
 
-      if(tree){tree.genLeaves(1, x, y);}
+
       predictingHands = false;
     } else {
       // palm = null;
@@ -78,6 +78,7 @@ function Hand(p){
         palm = newPalm;
       } else {
         palm = p5.Vector.lerp(palm, newPalm, amount);
+        if(tree && age % 3 == 0){tree.genLeaves(1, palm.x, palm.y);}
       }
       // console.log(palm);
       for(var i = 0; i < keypointsToShow.length; i++){
