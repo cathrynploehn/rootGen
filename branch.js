@@ -22,7 +22,7 @@ function Branch(p, parent, pos, direction, id) {
     var nextPos = p5.Vector.add(this.pos, nextDir);
     var next = new Branch(p, this, nextPos, this.dir.copy(), id);
     this.children[id] = next;
-    this.lifeforce += nutrientScape.getNutrientAt(nextPos.x, nextPos.y);
+    this.lifeforce += 1;
     return next;
   }
 

@@ -8,39 +8,36 @@ function Tree(p) {
   this.branchArr = [];
   this.generations = [];
   this.age = 0;
-  this.message = "hi";
-  this.reachedContent = [];
   this.sColor = d3.scalePow([0, 11], [10, 255]).exponent(2);
   this.root;
 
-  var loc = [[p.width/2, p.height/2]];
+  this.radius = 300;
+  this.currAngle = 2;
+
+  var loc = [[p.width/2 + this.radius, p.height/2]];
   for(var t = 0; t < loc.length;t++){
     thisObj.root = new Branch(p, null, p.createVector(loc[t][0], loc[t][1]), p.createVector(0, -1), t);
     this.branches.add(this.root);
     this.branchArr.push(this.root);
   }
 
-  for(var i = 0; i < nutrientScape.contentPoints.length; i++){
-    this.leaves.push(new Leaf(p, p.createVector(nutrientScape.contentPoints[i][0], nutrientScape.contentPoints[i][1]), true, i));
-  }
-
   this.genLeaves = function(n, x, y){
-    var closest = this.branches.find(x, y, max_dist);
+    // var closest = this.branches.find(x, y, max_dist);
 
-    if(closest){
+    // if(closest){
       this.message = "yum";
 
-      var nutrient = Math.pow(nutrientScape.getNutrientAt(x, y)-2, 2);
+      var nutrient = 5;
       // var num = n ? n: numLeaves;
       var neg1 = Math.random() >= .5? -1: 1;
       var neg2 = Math.random() >= .5? -1: 1;
-      for(var i = 0; i < nutrient; i++){
-        this.leaves.push(new Leaf(p, p.createVector(x + (Math.random() * 50) * neg1, y + (Math.random() * 50) * neg2)));
-      }
-
-    } else {
-      this.message = "i can't see that far away"
-    }
+      // for(var i = 0; i < nutrient; i++){
+        // this.leaves.push(new Leaf(p, p.createVector(x + (Math.random() * 50) * neg1, y + (Math.random() * 50) * neg2)));
+      // }
+      this.leaves.push(new Leaf(p, p.createVector(x, y)));
+    // } else {
+    //   this.message = "i can't see that far away"
+    // }
   }
 
   // this.genLeaves();
@@ -49,8 +46,7 @@ function Tree(p) {
 
     var reached = [];
     var closestBranches = {};
-    //
-    // console.log(this.leaves.length)
+
     for(var i = 0; i < this.leaves.length; i++){
       var leaf = this.leaves[i];
       var closest = this.branches.find(leaf.pos.x, leaf.pos.y, max_dist);
@@ -65,20 +61,17 @@ function Tree(p) {
 
         var d = p5.Vector.dist(closest.pos, leaf.pos);
       }
-      if(((!leaf.content && (d >= max_dist+20 || leaf.age < 1)) || d <= min_dist)){
-        if(leaf.content){
-          if(!leaf.reached && tutorial) { tutorial.placeContent(leaf.contentIndex); }
-          leaf.reached = true;
-        } else {
+      if(d <= min_dist){
+
           reached.push(i);
-        }
+
         if(d <= min_dist){
           if(!isNaN(leaf.nutrient)){
             closest.color = this.sColor(leaf.nutrient+2);
           }
         }
       }
-      leaf.age--;
+      // leaf.age--;
     }
 
     for(var j = reached.length-1; j > 0; j--){
@@ -87,21 +80,30 @@ function Tree(p) {
 
     for(br in closestBranches){
       var branch = closestBranches[br];
-      branch.dir.div(branch.count);
-        var len = this.branchArr.length;
-        var child = branch.next(len);
-        // console.log(abs(branch.dir.x) + abs(branch.dir.y));
-        // console.log(child.pos);
+          branch.dir.div(branch.count);
+      var len = this.branchArr.length;
+      var child = branch.next(len);
         this.branches.add(child);
         this.branchArr.push(child)
-
-
     }
 
-    var toRemove = [];
+    if(this.age < 360 && this.age % 10 == 0){ this.genCircle() }
+    this.age++;
+  }
 
+  this.genCircle = function() {
+    var percent = this.currAngle / 360;
+    var angle = percent * 2 * Math.PI;
+    var random = 100 * p.noise(this.currAngle);
+    var x = (this.radius + random) * Math.cos( angle ) + p.width/2;
+    var y = (this.radius + random) * Math.sin( angle ) + p.height/2;
+    this.genLeaves(1, x, y);
+    this.currAngle += 10;
+  }
+
+  this.decay = function(){
+    var toRemove = [];
     if(this.age > 300){
-      // this.leaves = [];
       for(var k = 0; k < this.branchArr.length; k++){
 
         var branch = this.branchArr[k];
@@ -121,14 +123,10 @@ function Tree(p) {
         this.branchArr.splice(toRemove[j], 1);
       }
     }
-
-    this.age++;
   }
 
   this.show = function(){
-    // for(var i = 0; i < this.reachedContent.length; i++){
-    //   this.reachedContent[i].show();
-    // }
+
     for(var i = 0; i < this.branchArr.length; i++){
       this.branchArr[i].show();
     }
@@ -140,11 +138,7 @@ function Tree(p) {
       p.noStroke();
       p.textSize(12);
       p.fill(255, 255);
-      if(palm && haveVideo){
-        p.text(this.message, palm.x + 10, palm.y);
-      } else if (!haveVideo) {
-        p.text(this.message, p.mouseX + 10, p.mouseY);
-      }
+      p.text(this.message, p.mouseX + 10, p.mouseY);
     p.pop();
   }
 

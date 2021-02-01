@@ -4,12 +4,10 @@ function Leaf(p, pos, isContent, contentIndex) {
   this.age = 100;
   this.content = isContent;
   this.contentIndex = contentIndex;
-  this.nutrient = nutrientScape.getNutrientAt(this.pos.x, this.pos.y)
+  this.nutrient = 10;
 
   this.show = function() {
-    if(this.reached && this.content){
       p.fill(255);
       p.ellipse(this.pos.x, this.pos.y, min_dist/2, min_dist/2)
-    }
   }
 }
