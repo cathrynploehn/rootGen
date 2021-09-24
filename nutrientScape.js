@@ -18,7 +18,7 @@ function NutrientScape(p, width, height, resolution) {
         var obj = {x: x, y: y, val: c, index: thisObj.grid.length, peak: false};
         thisObj.grid.push(obj);
         var d = p5.Vector.dist(p.createVector(obj.x* thisObj.resolution, obj.y* thisObj.resolution), p.createVector(p.width/2, p.height/2));
-        if(c > 6 && (d > (max_dist + 50))){
+        if(c > 5 && (d > (max_dist + 50))){
           if(d < max_dist + 50){console.log(d);}
           thisObj.peaks.push(obj); }
   		}
@@ -26,6 +26,7 @@ function NutrientScape(p, width, height, resolution) {
     for(var i = 0; i < wikipedia.paragraphs.length; i++){
       var rand = Math.floor(Math.random() * thisObj.peaks.length);
       var obj = thisObj.peaks[rand];
+      // var obj = thisObj.peaks[i];
       obj.peak = true;
       thisObj.contentPoints.push([obj.x * thisObj.resolution, obj.y * thisObj.resolution]);
     }

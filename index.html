@@ -4,29 +4,34 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="utf-8">
     <!-- Require the peer dependencies of handpose. -->
-		<script src="https://unpkg.com/@tensorflow/tfjs-core@2.1.0/dist/tf-core.js"></script>
-		<script src="https://unpkg.com/@tensorflow/tfjs-converter@2.1.0/dist/tf-converter.js"></script>
+		<!-- <script src="https://unpkg.com/@tensorflow/tfjs-core@2.1.0/dist/tf-core.js"></script> -->
+		<!-- <script src="https://unpkg.com/@tensorflow/tfjs-converter@2.1.0/dist/tf-converter.js"></script> -->
 
 		<!-- You must explicitly require a TF.js backend if you're not using the tfs union bundle. -->
-		<script src="https://unpkg.com/@tensorflow/tfjs-backend-webgl@2.1.0/dist/tf-backend-webgl.js"></script>
+		<!-- <script src="https://unpkg.com/@tensorflow/tfjs-backend-webgl@2.1.0/dist/tf-backend-webgl.js"></script> -->
 		<!-- <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-cpu@2.7.0/dist/tf-backend-cpu.min.js"></script> -->
 		<!-- Alternatively you can use the WASM backend:  -->
     <!-- <script src="https://unpkg.com/@tensorflow/tfjs-backend-wasm@2.1.0/dist/tf-backend-wasm.js"></script> -->
 
-		<script src="https://unpkg.com/@tensorflow-models/handpose@0.0.6/dist/handpose.js"></script>
+		<!-- <script src="https://unpkg.com/@tensorflow-models/handpose@0.0.6/dist/handpose.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js" integrity="sha512-dqw6X88iGgZlTsONxZK9ePmJEFrmHwpuMrsUChjAw1mRUhUITE5QU9pkcSox+ynfLhL15Sv2al5A0LVyDCmtUw==" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" integrity="sha512-8bHTC73gkZ7rZ7vpqUQThUDhqcNFyYi2xgDgPDHc+GXVGHXq+xPjynxIopALmOPqzo9JZj0k6OqqewdGO3EsrQ==" crossorigin="anonymous" /> -->
     <style media="screen">
+
       body, html, canvas {
-        background-color: black;
+        background-color: white;
         overflow: hidden;
         height: 100vh;
         font-family: monospace;
-        color: white;
+        color: black;
         width: 100%;
         white-space: nowrap;
         vertical-align: top;
+        display: flex;
+        flex-direction: row;
+        justify-content: stretch;
+        align-items: stretch;
       }
       a{
         color: white;
@@ -35,27 +40,26 @@
         line-height: 20px;
       }
       button {
-        background-color: black;
-        color: white;
+        background-color: white;
+        color: black;
         z-index: 3;
       }
-      #page-title {
-        position: absolute;
-        left: 20px;
+      #sidebar {
+        padding: 50px;
+        max-width: 400px;
+        white-space: initial;
+        width: 100%;
       }
+
       #content, canvas {
         display: inline-block;
       }
       #content {
-        margin-top: 80px;
-        padding: 20px 20px 20px 20px;
-        max-width: 300px;
-        white-space: initial;
-        width: 100%;
-        position: absolute;
         z-index: 2;
         height: 80vh;
         overflow-y: scroll;
+        padding-right: 35px;
+        padding-bottom: 35px;
       }
       #content::-webkit-scrollbar {
         width: 11px;
@@ -67,19 +71,31 @@
         background-color: transparent;
         border: 1px solid #ddd;
       }
+      #canvas-container {
+        width: 100%;
+        border-left: 1px solid black;
+        display: flex;
+        align-items: center;
+        /* height 100vh; */
+      }
     </style>
   </head>
   <body>
-    <div id="page-title">
-      <h1>Physarum polycephalum</h1>
-      From Wikipedia, the free encyclopedia
+    <div id="sidebar">
+      <div id="page-title">
+        <h1>June 2021</h1>
+        <p id="number"></p>
+      </div>
+      <div id="content">
+        <!-- <button id="close">✕ close</button> -->
+      </br>
+      </div>
     </div>
-    <div id="content">
-      <button id="close">✕ close</button>
-    </br>
+    <div id="canvas-container">
     </div>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="d3.quadtree.js"></script>
+    <script src="chroma.min.js"></script>
     <script src="wikipedia.js"></script>
     <script src="tutorial.js"></script>
     <script src="nutrientScape.js"></script>

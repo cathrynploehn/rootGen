@@ -92,8 +92,11 @@ function Tree(p) {
         var child = branch.next(len);
         // console.log(abs(branch.dir.x) + abs(branch.dir.y));
         // console.log(child.pos);
-        this.branches.add(child);
-        this.branchArr.push(child)
+
+        if(child){
+          this.branches.add(child);
+          this.branchArr.push(child)
+        }
 
 
     }
@@ -139,7 +142,7 @@ function Tree(p) {
     p.push();
       p.noStroke();
       p.textSize(12);
-      p.fill(255, 255);
+      p.fill(0);
       if(palm && haveVideo){
         p.text(this.message, palm.x + 10, palm.y);
       } else if (!haveVideo) {

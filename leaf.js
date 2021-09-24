@@ -8,8 +8,16 @@ function Leaf(p, pos, isContent, contentIndex) {
 
   this.show = function() {
     if(this.reached && this.content){
-      p.fill(255);
+      p.noStroke();
+      p.fill(170, 0, 71);
+      // p.strokeWeight(1.5);
       p.ellipse(this.pos.x, this.pos.y, min_dist/2, min_dist/2)
+    }
+    if(this.content){
+      p.noStroke();
+      p.fill(170, 0, 71);
+      // p.strokeWeight(1.5);
+      p.ellipse(this.pos.x, this.pos.y, 2, 2)
     }
   }
 }
