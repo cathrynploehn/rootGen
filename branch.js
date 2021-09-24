@@ -25,7 +25,7 @@ function Branch(p, parent, pos, direction, id) {
     var nextPos = p5.Vector.add(this.pos, this.dir);
     var next = new Branch(p, this, nextPos, this.dir.copy(), id);
     this.children[id] = next;
-    this.lifeforce += nutrientScape.getNutrientAt(nextPos.x, nextPos.y);
+    this.lifeforce += 5;
     // console.log(p5.Vector.dist(nextPos, this.pos))
     if(p5.Vector.dist(nextPos, this.pos) >= 0.01){
       return next;

@@ -30,8 +30,8 @@
         vertical-align: top;
         display: flex;
         flex-direction: row;
-        justify-content: stretch;
-        align-items: stretch;
+        justify-content: center;
+        align-items: center;
       }
       a{
         color: white;
@@ -73,30 +73,37 @@
       }
       #canvas-container {
         width: 100%;
-        border-left: 1px solid black;
         display: flex;
         align-items: center;
-        /* height 100vh; */
+        max-width: 300px;
+        max-height: 300px;
+        justify-content: center;
+        height: 99vh;
+        padding: 2px;
+      }
+
+      canvas {
+        border: 1px solid pink;
+
       }
     </style>
   </head>
   <body>
-    <div id="sidebar">
+    <!-- <div id="sidebar">
       <div id="page-title">
-        <h1>June 2021</h1>
+        <h1></h1>
         <p id="number"></p>
       </div>
       <div id="content">
-        <!-- <button id="close">✕ close</button> -->
+        <button id="close">✕ close</button>
       </br>
       </div>
-    </div>
+    </div> -->
     <div id="canvas-container">
     </div>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="d3.quadtree.js"></script>
     <script src="chroma.min.js"></script>
-    <script src="wikipedia.js"></script>
     <script src="tutorial.js"></script>
     <script src="nutrientScape.js"></script>
     <script src="hand.js"></script>

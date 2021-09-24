@@ -4,7 +4,7 @@ function Leaf(p, pos, isContent, contentIndex) {
   this.age = 100;
   this.content = isContent;
   this.contentIndex = contentIndex;
-  this.nutrient = nutrientScape.getNutrientAt(this.pos.x, this.pos.y)
+  this.nutrient = 5;
 
   this.show = function() {
     if(this.reached && this.content){

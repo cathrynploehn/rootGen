@@ -20,17 +20,13 @@ function Tree(p) {
     this.branchArr.push(this.root);
   }
 
-  for(var i = 0; i < nutrientScape.contentPoints.length; i++){
-    this.leaves.push(new Leaf(p, p.createVector(nutrientScape.contentPoints[i][0], nutrientScape.contentPoints[i][1]), true, i));
-  }
-
   this.genLeaves = function(n, x, y){
     var closest = this.branches.find(x, y, max_dist);
 
     if(closest){
       this.message = "yum";
 
-      var nutrient = Math.pow(nutrientScape.getNutrientAt(x, y)-2, 2);
+      var nutrient = 5;
       // var num = n ? n: numLeaves;
       var neg1 = Math.random() >= .5? -1: 1;
       var neg2 = Math.random() >= .5? -1: 1;
@@ -132,22 +128,32 @@ function Tree(p) {
     // for(var i = 0; i < this.reachedContent.length; i++){
     //   this.reachedContent[i].show();
     // }
-    for(var i = 0; i < this.branchArr.length; i++){
-      this.branchArr[i].show();
-    }
-    for(var i = 0; i < this.leaves.length; i++){
-      this.leaves[i].show();
-    }
+    // for(var i = 0; i < this.branchArr.length; i++){
+    //   this.branchArr[i].show();
+    // }
+    // for(var i = 0; i < this.leaves.length; i++){
+    //   this.leaves[i].show();
+    // }
+
+    p.push();
+      p.strokeWeight(1);
+      p.stroke(0, 255);
+      p.beginShape();
+      for(var i = 0; i < p.width; i++){
+        var x = i;
+        var y =  (x - (p.width/2)) * (x - (p.width/2)) / (p.height*2) + (p.height/2) - (p.height/(Math.pow(2, 3)));
+        // console.log(x)
+        p.vertex(x, y);
+      }
+      p.endShape();
+
+        p.line(0, p.height/2, p.width, p.height/2)
+    p.pop();
 
     p.push();
       p.noStroke();
       p.textSize(12);
       p.fill(0);
-      if(palm && haveVideo){
-        p.text(this.message, palm.x + 10, palm.y);
-      } else if (!haveVideo) {
-        p.text(this.message, p.mouseX + 10, p.mouseY);
-      }
     p.pop();
   }
 
