@@ -136,18 +136,57 @@ function Tree(p) {
     // }
 
     p.push();
+      p.noFill()
       p.strokeWeight(1);
       p.stroke(0, 255);
+
+      var x1 = 0;
+      var y1 = p.height*1.5;
+      var x2 = 0;
+      var y2 = p.height/2;
+      var x3 = p.width;
+      var y3 = (p.height/2);
+      var x4 = p.width;
+      var y4 = p.height*1.5;
+
+      p.curve(x1, y1, x2, y2, x3, y3, x4, y4);
+
+      let steps = 100;
+
+      for (let i = 0; i <= steps; i++) {
+        let t = i / steps;
+        let x = p.curvePoint(x1, x2, x3, x4, t);
+        let y = p.curvePoint(y1, y2, y3, y4, t);
+        //ellipse(x, y, 5, 5);
+        let tx = p.curveTangent(x1, x2, x3, x4, t);
+        let ty = p.curveTangent(y1, y2, y3, y4, t);
+        let a = p.atan2(ty, tx);
+        a -= p.PI / 2.0;
+
+        var len = 1 - (x - (p.width/2)) * (x - (p.width/2)) / (p.height*2) + (p.height/(Math.pow(2, 3)));
+            // len += p.log(1/x) / 1;
+        p.line(x, y, (p.cos(a) * len) + x, (p.sin(a) * len) + y);
+        p.line(x, y, (p.cos(a) * -len) + x, (p.sin(a) * -len) + y);
+      }
+
       p.beginShape();
       for(var i = 0; i < p.width; i++){
+        // testing look of quadratic
+        // var x = i;
+        // // var y = (x - (p.width/2)) * (x - (p.width/2)) / (p.height*2) + (p.height/2) - (p.height/(Math.pow(2, 3)));
+        // var y =  1 - (x - (p.width/2)) * (x - (p.width/2)) / (p.height*2) + (p.height/(Math.pow(2, 3)));
+        // // console.log(x)
+        // p.vertex(x, y);
+
+        // use sigmoid instead
         var x = i;
-        var y =  (x - (p.width/2)) * (x - (p.width/2)) / (p.height*2) + (p.height/2) - (p.height/(Math.pow(2, 3)));
-        // console.log(x)
-        p.vertex(x, y);
+        var y = (((x) * (-x)) / (p.height*8)) + p.height/8
+        p.vertex(x, y)
+
       }
       p.endShape();
 
-        p.line(0, p.height/2, p.width, p.height/2)
+        // p.line(0, p.height/2, p.width, p.height/2)
     p.pop();
 
     p.push();
